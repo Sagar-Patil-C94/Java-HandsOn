@@ -4,26 +4,45 @@ package OOPS;
 // 1. Thread Class and 2. Runnable Interface
 public class threadCase {
     public static void main(String[] args) {
-        System.out.println("Running outside the thread...");
-        for (int i = 0; i < 10; i++) {
-            myCls obj = new myCls();
+        for (int i = 0; i < 5; i++) {
+            // Thread Class
+            threadCls obj = new threadCls("Thread", i);
             obj.start();
+            // Runnable Interface
+            Thread obj1 = new Thread(new runCls());
+            obj1.start();
+
+        }
+    }
+}
+
+// By extending Thread Class
+class threadCls extends Thread {
+    private int count = 0;
+
+    public threadCls(String name, int count) {
+        super(name);
+        this.count = count;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 10; i++) {
+            System.out.print("This is Thread!! ");
+            System.out.println(count);
             try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                System.out.println(e);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 }
 
-class myCls extends Thread {
-    static int count = 0;
-
+// By Implementing Runnable Interface
+class runCls implements Runnable {
     @Override
     public void run() {
-        myCls.count++;
-        System.out.println("Running In The Thread");
-        System.out.println(count);
+        System.out.println("Hello This Is Thread!!");
     }
 }
